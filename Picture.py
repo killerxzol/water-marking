@@ -9,6 +9,7 @@ class Picture:
     def __init__(self, method, image, message, column_protected, block_size, redundancy, iterations=None, noise=None):
         self.method = method
         self.image = image
+        self.original_image = np.copy(image)
         self.message = message
         self.column_protected = column_protected
         self.block_size = block_size
@@ -16,6 +17,12 @@ class Picture:
         self.iterations = iterations
         self.noise = noise
         self.binary_message = None
+
+    def control(self):
+        difference = np.array(self.image.tolist()) - self.original_image
+        fro = np.linalg.norm(difference)
+        print('\nНорма Фробениуса: ', fro)
+        print('\nНорма на пиксель: ', fro / (self.image.shape[0] * self.image.shape[1]))
 
     def encode_test(self):
         original, binary_original = self.message, self.binary_message
@@ -210,6 +217,7 @@ class Picture:
             if self.noise:
                 self.make_noise()
             self.encode_test()
+            self.control()
 
         if self.method == 'Decode':
             print('\nSelected method: Decode')
