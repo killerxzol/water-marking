@@ -19,10 +19,9 @@ class Picture:
         self.binary_message = None
 
     def control(self):
-        difference = np.array(self.image.tolist()) - self.original_image
+        difference = self.image.astype(np.int32) - self.original_image.astype(np.int32)
         fro = np.linalg.norm(difference)
         print('\nНорма Фробениуса: ', fro)
-        print('\nНорма на пиксель: ', fro / (self.image.shape[0] * self.image.shape[1]))
 
     def encode_test(self):
         original, binary_original = self.message, self.binary_message
